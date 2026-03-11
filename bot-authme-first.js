@@ -1,40 +1,49 @@
 const mineflayer = require('mineflayer')
 
-const host = 'arcanumcraft.com.br'
-const username = 'feliz'
-const senha = 'farmbmb'
+const host = "arcanumcraft.com.br"
+const port = 25565
+const username = "feliz"
+const senha = "farmbmb"
 
-function criarBot() {
+function iniciarBot() {
 
-  const bot = mineflayer.createBot({
-    host: host,
-    port: 25565,
-    username: username,
-    version: false
-  })
+const bot = mineflayer.createBot({
+  host: host,
+  port: port,
+  username: username,
+  version: false
+})
 
-  bot.on('spawn', () => {
-    console.log('Bot entrou no servidor')
+bot.on("login", () => {
+  console.log("Bot conectou no servidor")
+})
 
-    setTimeout(() => {
-      bot.chat(`/login ${senha}`)
-      console.log('Login enviado')
-    }, 3000)
-  })
+bot.on("spawn", () => {
+  console.log("Bot entrou no mundo")
 
-  bot.on('end', () => {
-    console.log('Bot caiu... reconectando em 10s')
-    setTimeout(criarBot, 10000)
-  })
+  setTimeout(() => {
+    bot.chat(`/register ${senha} ${senha}`)
+  }, 4000)
 
-  bot.on('kicked', (reason) => {
-    console.log('Kickado:', reason)
-  })
+  setTimeout(() => {
+    bot.chat(`/login ${senha}`)
+  }, 7000)
 
-  bot.on('error', (err) => {
-    console.log('Erro:', err)
-  })
+})
+
+bot.on("kicked", (reason) => {
+  console.log("Kickado:", reason)
+})
+
+bot.on("error", (err) => {
+  console.log("Erro:", err)
+})
+
+bot.on("end", () => {
+  console.log("Bot caiu... reconectando em 10s")
+  setTimeout(iniciarBot, 10000)
+})
 
 }
 
-criarBot()
+iniciarBot()
