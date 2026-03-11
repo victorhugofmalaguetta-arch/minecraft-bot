@@ -5,45 +5,45 @@ const port = 25565
 const username = "feliz"
 const senha = "farmbmb"
 
-function iniciarBot() {
+function startBot() {
 
-const bot = mineflayer.createBot({
-  host: host,
-  port: port,
-  username: username,
-  version: false
-})
+  console.log("Iniciando bot...")
 
-bot.on("login", () => {
-  console.log("Bot conectou no servidor")
-})
+  const bot = mineflayer.createBot({
+    host: host,
+    port: port,
+    username: username,
+    version: false
+  })
 
-bot.on("spawn", () => {
-  console.log("Bot entrou no mundo")
+  bot.on("login", () => {
+    console.log("Bot conectou no servidor")
+  })
 
-  setTimeout(() => {
-    bot.chat(`/register ${senha} ${senha}`)
-  }, 4000)
+  bot.on("spawn", () => {
+    console.log("Bot entrou no mundo")
 
-  setTimeout(() => {
-    bot.chat(`/login ${senha}`)
-  }, 7000)
+    setTimeout(() => {
+      bot.chat(`/login ${senha}`)
+      console.log("Comando login enviado")
+    }, 5000)
 
-})
+  })
 
-bot.on("kicked", (reason) => {
-  console.log("Kickado:", reason)
-})
+  bot.on("kicked", (reason) => {
+    console.log("Kickado:", reason)
+  })
 
-bot.on("error", (err) => {
-  console.log("Erro:", err)
-})
+  bot.on("error", (err) => {
+    console.log("Erro detectado:")
+    console.log(err)
+  })
 
-bot.on("end", () => {
-  console.log("Bot caiu... reconectando em 10s")
-  setTimeout(iniciarBot, 10000)
-})
+  bot.on("end", () => {
+    console.log("Bot caiu... reconectando em 10s")
+    setTimeout(startBot, 10000)
+  })
 
 }
 
-iniciarBot()
+startBot()
