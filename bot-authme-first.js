@@ -1,49 +1,38 @@
 const mineflayer = require('mineflayer')
 
-const host = "arcanumcraft.com.br"
-const port = 25565
-const username = "feliz"
-const senha = "farmbmb"
+const bot = mineflayer.createBot({
+  host: 'arcanumcraft.com.br',
+  port: 25565,
+  username: 'feliz',
+  version: '1.21.1'
+})
 
-function startBot() {
+bot.on('spawn', () => {
+  console.log('Bot entrou')
 
-  console.log("Iniciando bot...")
 
-  const bot = mineflayer.createBot({
-    host: host,
-    port: port,
-    username: username,
-    version: false
-  })
 
-  bot.on("login", () => {
-    console.log("Bot conectou no servidor")
-  })
+  setTimeout(() => {
+    bot.setControlState('forward', false)
+  }, 2000)
 
-  bot.on("spawn", () => {
-    console.log("Bot entrou no mundo")
+  // login
+  setTimeout(() => {
+    console.log('Mandando login')
+    bot.chat('/login farmbmb')
+  }, 5000)
 
-    setTimeout(() => {
-      bot.chat(`/login ${senha}`)
-      console.log("Comando login enviado")
-    }, 5000)
+  // register caso precise
+  setTimeout(() => {
+    bot.chat('/register farmbmb farmbmb')
+  }, 8000)
 
-  })
 
-  bot.on("kicked", (reason) => {
-    console.log("Kickado:", reason)
-  })
+})
 
-  bot.on("error", (err) => {
-    console.log("Erro detectado:")
-    console.log(err)
-  })
+bot.on('message', (msg) => {
+  console.log(msg.toString())
+})
 
-  bot.on("end", () => {
-    console.log("Bot caiu... reconectando em 10s")
-    setTimeout(startBot, 10000)
-  })
-
-}
-
-startBot()
+bot.on('error', console.log)
+bot.on('kicked', console.log)
