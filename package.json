@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "bot-authme-first.js",
   "dependencies": {
-    "mineflayer": "^4.16.0"
+    "mineflayer": "^4.16.0""scripts": 
+  "start": "node --no-deprecation bot.js"  
   }
 }
